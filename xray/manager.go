@@ -182,6 +182,27 @@ func (sm *XrayServicesManager) DeleteReport(reportId string) error {
 	return reportService.Delete(reportId)
 }
 
+// GenerateCveSearchReport returns a Xray cve search report response
+func (sm *XrayServicesManager) GenerateCveSearchReport(params services.CveSearchReportRequestParams) (resp *services.ReportResponse, err error) {
+	reportService := services.NewReportService(sm.client)
+	reportService.XrayDetails = sm.config.GetServiceDetails()
+	return reportService.GenerateCveSearch(params)
+}
+
+// GetCveSearchReportList returns a  Xray cve search report list response
+func (sm *XrayServicesManager) GetCveSearchReportList(pagination services.ReportPagination, filters services.ReportListFilters) (list *services.CveReportDetailsList, err error) {
+	reportService := services.NewReportService(sm.client)
+	reportService.XrayDetails = sm.config.GetServiceDetails()
+	return reportService.ListCveSearch(pagination, filters)
+}
+
+// ConsumeCveSearchReport returns a Xray cve search report content response
+func (sm *XrayServicesManager) ConsumeCveSearchReport(params services.ReportContentRequestParams, filters services.CveSearchConsumeFilters) (content *services.CveSearchReportContent, err error) {
+	reportService := services.NewReportService(sm.client)
+	reportService.XrayDetails = sm.config.GetServiceDetails()
+	return reportService.ConsumeCveSearch(params, filters)
+}
+
 // ArtifactSummary returns Xray artifact summaries for the requested checksums and/or paths
 func (sm *XrayServicesManager) ArtifactSummary(params services.ArtifactSummaryParams) (*services.ArtifactSummaryResponse, error) {
 	summaryService := services.NewSummaryService(sm.client)

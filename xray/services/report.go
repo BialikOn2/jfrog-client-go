@@ -22,6 +22,11 @@ type ReportService struct {
 	XrayDetails auth.ServiceDetails
 }
 
+type ReportDetailsList struct {
+	TotalReports      int              `json:"total_reports"`
+	ReportDetailsList []*ReportDetails `json:"reports"`
+}
+
 // ReportDetails defines the detail response for an Xray report
 type ReportDetails struct {
 	Id                 int    `json:"id,omitempty"`
@@ -39,7 +44,11 @@ type ReportDetails struct {
 
 // ReportContentRequestParams defines a report content request
 type ReportContentRequestParams struct {
-	ReportId  string
+	ReportId string
+	*ReportPagination
+}
+
+type ReportPagination struct {
 	Direction string
 	PageNum   int
 	NumRows   int
